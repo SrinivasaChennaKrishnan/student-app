@@ -1,0 +1,111 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.login {
+  font-family: sans-serif;
+}
+.form-title {
+  padding-bottom: 150px;
+}
+.title-home {
+  padding-left: 20px;
+}
+.slist-font-grey {
+  color: #808080;
+  font-weight: bold;
+  font-size: 55px;
+}
+.slist-font-blue {
+  color: #33ffdd;
+  font-weight: bold;
+  font-size: 55px;
+}
+.slist-font-grey-home {
+  color: #808080;
+  font-size: 40px;
+}
+.slist-font-blue-home {
+  color: #33ffdd;
+  font-size: 40px;
+}
+#login-form {
+  text-align: center;
+  margin: auto;
+  width: 50%;
+}
+.form-inputs {
+  padding: 20px 40px;
+  width: -webkit-fill-available;
+  margin: 20px 40px;
+  border: none;
+}
+.form-input-button {
+  display: block;
+  padding: 20px 40px;
+  width: -webkit-fill-available;
+  margin: 20px 40px;
+  color: #ffff;
+  background-color: #33ffdd;
+  font-size: 30px;
+  border-radius: 5px;
+}
+.error-message {
+  background-color: #fffacd;
+  padding: 1em;
+  margin: 20px 40px;
+}
+.user-icon-home {
+  width: 50px;
+  height: 50px;
+}
+.label-count {
+  color: white;
+  padding: 8px;
+  background-color: #f44336;
+  border-radius: 25px;
+  font-weight: bold;
+  margin-left: 50px;
+  -webkit-box-shadow: 5px 5px 10px #666;
+  -moz-box-shadow: 5px 5px 10px #666;
+  box-shadow: 5px 5px 10px #666;
+}
+.align-right {
+  float: right;
+}
+.back-arrow {
+  width: 30px;
+  height: 30px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+.about-text {
+  color: #212529;
+}
+.search-bar {
+  margin-top: 50px;
+}
+.right-inner-addon {
+  position: relative;
+}
+.right-inner-addon input {
+  padding-right: 30px;
+}
+.right-inner-addon i {
+  position: absolute;
+  right: 0px;
+  padding: 10px 12px;
+  pointer-events: none;
+}
+.filter-dropdown {
+  border: none;
+}
+.filter-by {
+  color: #212529;
+  background-color: none;
+  border: 1px solid #ced4da;
+}
+.filter-drop-down {
+  color: #808080;
+  font-size: 15px;
+}
