@@ -50,6 +50,17 @@
   font-size: 30px;
   border-radius: 5px;
 }
+.form-input-button-loadmore {
+  display: block;
+  padding: 5px 40px;
+  width: 100%;
+  height: 50px;
+  margin: 20px 40px;
+  color: #ffff;
+  background-color: #33ffdd;
+  font-size: 20px;
+  border-radius: 5px;
+}
 .error-message {
   background-color: #fffacd;
   padding: 1em;
@@ -108,4 +119,43 @@
 .filter-drop-down {
   color: #808080;
   font-size: 15px;
+}
+
+.student-list {
+  margin: 17px;
+  background-color: #d9d9d9;
+  max-width: 22%;
+}
+.student-image-home {
+  width: 70px;
+  height: 80px;
+  margin: 10px 0px;
+}
+
+.student-details-home {
+  margin: 20px 0px;
+  overflow-wrap: break-word;
+}
+
+.student-details-p {
+  margin-bottom: 0;
+}
+.student-switch-icon-p {
+  float: right;
+  margin-bottom: 5px;
+}
+.home-container {
+  font-family: monospace;
+  border: solid 2px #d9d9d9;
+}
+.pl0 {
+  padding-left: 0;
+}
+.student-card-bold {
+  font-weight: 900;
+}
+.switch-icon {
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
 }

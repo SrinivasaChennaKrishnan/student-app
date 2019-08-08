@@ -39,10 +39,56 @@ class Home extends React.Component {
   }
 
   render() {
+    console.log("home page??????", this.props);
+    let studentData = this.props.props.studentData
+      ? this.props.props.studentData
+      : [];
+    const studentCard = studentData.map(items => (
+      <Col lg="3" className="student-list">
+        <Row>
+          <Col lg="5">
+            <img
+              alt="student-pic"
+              className="student-image-home"
+              src="https://www.lakeportmetalcraft.com/wp-content/uploads/2018/10/user-placeholder.png"
+            />
+          </Col>
+          <Col lg="7" className="pl0">
+            <section className="student-details-home">
+              <p className="student-details-p">
+                <span classname="student-card-bold">Name:</span>
+                {items.name}
+              </p>
+              <p className="student-details-p">
+                <span classname="student-card-bold">Roll No:</span>
+                {items.id}
+              </p>
+              <p className="student-details-p">
+                <span classname="student-card-bold">Class:</span>
+                {items.website}
+              </p>
+            </section>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <p className="student-switch-icon-p">
+              <img
+                alt="switch-icon"
+                className="switch-icon"
+                src="https://p7.hiclipart.com/preview/898/313/288/silhouette-angle-monochrome-photography-fish-dolphin-refresh-thumbnail.jpg"
+              />
+            </p>
+          </Col>
+        </Row>
+      </Col>
+    ));
     return (
       <div>
-        <h3>Home Page</h3>
         <Container>
+          <h3>Home Page</h3>
+        </Container>
+        <Container className="home-container">
           <Row>
             <Col lg="6">
               <img
@@ -68,7 +114,6 @@ class Home extends React.Component {
                 <span>
                   <img
                     className="back-arrow"
-                    onClick={this.props.logout}
                     alt="back"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZNFVzm23Ii_oJEp900SvUqJwJu8nrHTiiqHoAggaibUimCzOv"
                   />
@@ -93,7 +138,6 @@ class Home extends React.Component {
                     <DropdownItem>Name</DropdownItem>
                     <DropdownItem>Class</DropdownItem>
                     <DropdownItem>Section</DropdownItem>
-                    <DropdownItem>Id</DropdownItem>
                   </DropdownMenu>
                 </InputGroupButtonDropdown>
                 <Input placeholder="" />
@@ -102,6 +146,15 @@ class Home extends React.Component {
                 </InputGroupAddon>
               </InputGroup>
             </Col>
+          </Row>
+          <Row>{studentCard}</Row>
+          <Row />
+          <Row>
+            <Col lg="4" />
+            <Col lg="4" className="load-more-button">
+              <button className="form-input-button-loadmore">Load More</button>
+            </Col>
+            <Col lg="4" />
           </Row>
         </Container>
       </div>

@@ -1,5 +1,14 @@
 import { get } from "axios";
-import { call, cancel, cancelled, fork, put, take } from "redux-saga/effects";
+import {
+  call,
+  cancel,
+  cancelled,
+  fork,
+  put,
+  take,
+  takeEvery,
+  all
+} from "redux-saga/effects";
 
 export function fakeAuthorize(user, password) {
   return new Promise(async (resolve, reject) => {
@@ -43,4 +52,19 @@ export function* logActions() {
     const action = yield take("*");
     console.log(action.type);
   }
+}
+
+function* fetchStudentData() {
+  const json = yield fetch("https://jsonplaceholder.typicode.com/users").then(
+    response => response.json()
+  );
+  yield put({ type: "DATA_RECEIVED", json: json });
+  console.log("call completed and got data??????", json);
+}
+function* actionWatcher() {
+  yield takeEvery("GET_STUDENT_DATA", fetchStudentData);
+}
+
+export function* rootSaga() {
+  yield all([actionWatcher()]);
 }

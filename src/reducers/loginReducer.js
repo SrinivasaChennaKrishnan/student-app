@@ -1,28 +1,26 @@
-import actionTypes from "../actions/actionTypes";
 import {
   LOGGED_IN,
   LOGGED_OUT,
-  LOGIN_CANCELLED,
-  LOGIN_ERROR
-} from "./../statusTypes";
-import initialState from "./initialState";
+  LOGIN_ERROR,
+  LOGIN_CANCELLED
+} from "../statusTypes";
 
-export default function userRole(state = initialState.login, action) {
-  let newState;
+const reducer = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN_SUCCESS:
-      newState = { ...state, status: LOGGED_IN };
-      return newState;
-    case actionTypes.LOGOUT:
-      newState = { ...state, status: LOGGED_OUT };
-      return newState;
-    case actionTypes.LOGIN_ERROR:
-      newState = { ...state, status: LOGIN_ERROR };
-      return newState;
-    case actionTypes.LOGIN_CANCELLED:
-      newState = { ...state, status: LOGIN_CANCELLED };
-      return newState;
+    case "GET_STUDENT_DATA":
+      return { ...state, loading: true };
+    case "DATA_RECEIVED":
+      return { ...state, data: action.json, loading: false };
+    case "LOGIN_SUCCESS":
+      return { ...state, status: LOGGED_IN };
+    case "LOGOUT":
+      return { ...state, status: LOGGED_OUT };
+    case "LOGIN_ERROR":
+      return { ...state, status: LOGIN_ERROR };
+    case "LOGIN_CANCELLED":
+      return { ...state, status: LOGIN_CANCELLED };
     default:
       return state;
   }
-}
+};
+export default reducer;
