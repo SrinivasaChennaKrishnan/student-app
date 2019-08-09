@@ -13,6 +13,9 @@ import {
   Input
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import { getStudentData } from "../actions/logInActions";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,10 +23,19 @@ class Home extends React.Component {
 
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
+    this.switchPresence = this.switchPresence.bind(this);
+    this.closeMessage = this.closeMessage.bind(this);
+    this.logOutFromHome = this.logOutFromHome.bind(this);
     this.state = {
       dropdownOpen: false,
-      splitButtonOpen: false
+      splitButtonOpen: false,
+      isPresent: [],
+      message: "",
+      logOut: false
     };
+  }
+  componentDidMount() {
+    this.props.getStudentData();
   }
 
   toggleDropDown() {
@@ -38,13 +50,36 @@ class Home extends React.Component {
     });
   }
 
+  switchPresence(index) {
+    let isPresent = this.state.isPresent;
+    let getId = `student-card-${index}`;
+    let studentCard = document.getElementById(getId).classList;
+    if (isPresent.includes(index)) {
+      isPresent.pop(index);
+      studentCard.remove("student-list-blue");
+    } else {
+      isPresent.push(index);
+      studentCard.add("student-list-blue");
+    }
+    this.setState({
+      isPresent,
+      message: "Status Changed!"
+    });
+  }
+  closeMessage() {
+    this.setState({
+      message: ""
+    });
+  }
+  logOutFromHome() {
+    this.setState({ logOut: true });
+  }
   render() {
-    console.log("home page??????", this.props);
     let studentData = this.props.props.studentData
       ? this.props.props.studentData
       : [];
-    const studentCard = studentData.map(items => (
-      <Col lg="3" className="student-list">
+    const studentCard = studentData.map((items, index) => (
+      <Col lg="3" id={`student-card-${index}`} className="student-list-grey">
         <Row>
           <Col lg="5">
             <img
@@ -61,11 +96,11 @@ class Home extends React.Component {
               </p>
               <p className="student-details-p">
                 <span classname="student-card-bold">Roll No:</span>
-                {items.id}
+                {items.index}
               </p>
               <p className="student-details-p">
                 <span classname="student-card-bold">Class:</span>
-                {items.website}
+                {items.company}
               </p>
             </section>
           </Col>
@@ -76,6 +111,7 @@ class Home extends React.Component {
               <img
                 alt="switch-icon"
                 className="switch-icon"
+                onClick={this.switchPresence.bind(this, index)}
                 src="https://p7.hiclipart.com/preview/898/313/288/silhouette-angle-monochrome-photography-fish-dolphin-refresh-thumbnail.jpg"
               />
             </p>
@@ -83,11 +119,11 @@ class Home extends React.Component {
         </Row>
       </Col>
     ));
+    if (this.state.logOut) {
+      return <Redirect to="/login" />;
+    }
     return (
       <div>
-        <Container>
-          <h3>Home Page</h3>
-        </Container>
         <Container className="home-container">
           <Row>
             <Col lg="6">
@@ -100,20 +136,23 @@ class Home extends React.Component {
                 <span className="slist-font-blue-home">S</span>
                 <span className="slist-font-grey-home">List</span>
               </span>
-              <span className="label-count">1254 present today</span>
+              <span className="label-count">
+                {this.state.isPresent.length} present today
+              </span>
             </Col>
             <Col lg="6">
               <Col lg="6" />
-              <Col lg="6" className="align-right">
+              <Col lg="6" className="login-details-content">
                 <span>
                   Welcome Admin! |{" "}
-                  <a href="#" className="about-text">
+                  <Link className="about-text" to="/about">
                     About
-                  </a>
+                  </Link>
                 </span>
                 <span>
                   <img
                     className="back-arrow"
+                    onClick={this.logOutFromHome}
                     alt="back"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZNFVzm23Ii_oJEp900SvUqJwJu8nrHTiiqHoAggaibUimCzOv"
                   />
@@ -121,9 +160,26 @@ class Home extends React.Component {
               </Col>
             </Col>
           </Row>
+          {this.state.message !== "" && (
+            <Row>
+              <Col lg="12">
+                <section className="message-home">
+                  {this.state.message}{" "}
+                  <span>
+                    <img
+                      alt="close"
+                      className="icon-close"
+                      onClick={this.closeMessage}
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtxfU96sEkIlztdlExKGNBC_VzPajxKElxhWbLbZc1oyF1P0rKqQ"
+                    />
+                  </span>
+                </section>
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col lg="6" className="search-bar">
-              <InputGroup>
+              <InputGroup className="search-bar-home">
                 <InputGroupButtonDropdown
                   addonType="prepend"
                   isOpen={this.state.splitButtonOpen}
@@ -140,11 +196,21 @@ class Home extends React.Component {
                     <DropdownItem>Section</DropdownItem>
                   </DropdownMenu>
                 </InputGroupButtonDropdown>
-                <Input placeholder="" />
+                <Input className="search-bar-home" placeholder="" />
                 <InputGroupAddon addonType="append">
                   <Button className="glyphicon glyphicon-search" />
                 </InputGroupAddon>
               </InputGroup>
+            </Col>
+            <Col lg="6" className="search-bar-info">
+              <p className="attendance-info-absent">
+                <span className="icon-absent">__</span>
+                Absent
+              </p>
+              <p className="attendance-info-present">
+                <span className="icon-present">__</span>
+                Present
+              </p>
             </Col>
           </Row>
           <Row>{studentCard}</Row>
@@ -152,7 +218,7 @@ class Home extends React.Component {
           <Row>
             <Col lg="4" />
             <Col lg="4" className="load-more-button">
-              <button className="form-input-button-loadmore">Load More</button>
+              <Button className="form-input-button-loadmore">Load More</Button>
             </Col>
             <Col lg="4" />
           </Row>
@@ -162,4 +228,11 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+const mapDispatchToProps = {
+  getStudentData: getStudentData
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Home);

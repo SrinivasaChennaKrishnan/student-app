@@ -6,7 +6,7 @@
   font-family: sans-serif;
 }
 .form-title {
-  padding-bottom: 150px;
+  padding-bottom: 100px;
 }
 .title-home {
   padding-left: 20px;
@@ -35,18 +35,18 @@
   width: 50%;
 }
 .form-inputs {
-  padding: 20px 40px;
+  padding: 40px 40px;
   width: -webkit-fill-available;
-  margin: 20px 40px;
+  margin: 40px 40px;
   border: none;
 }
 .form-input-button {
   display: block;
-  padding: 20px 40px;
+  padding: 15px 30px;
   width: -webkit-fill-available;
   margin: 20px 40px;
   color: #ffff;
-  background-color: #33ffdd;
+  background-color: #33adff;
   font-size: 30px;
   border-radius: 5px;
 }
@@ -57,14 +57,20 @@
   height: 50px;
   margin: 20px 40px;
   color: #ffff;
-  background-color: #33ffdd;
+  background-color: #33adff;
   font-size: 20px;
   border-radius: 5px;
 }
+
 .error-message {
   background-color: #fffacd;
   padding: 1em;
-  margin: 20px 40px;
+  margin: 60px 60px;
+}
+.message-home {
+  background-color: #fffacd;
+  padding: 1em;
+  margin: 20px 20px;
 }
 .user-icon-home {
   width: 50px;
@@ -81,8 +87,9 @@
   -moz-box-shadow: 5px 5px 10px #666;
   box-shadow: 5px 5px 10px #666;
 }
-.align-right {
+.login-details-content {
   float: right;
+  margin-top: 28px;
 }
 .back-arrow {
   width: 30px;
@@ -95,6 +102,9 @@
 }
 .search-bar {
   margin-top: 50px;
+}
+.search-bar-info {
+  margin-top: 60px;
 }
 .right-inner-addon {
   position: relative;
@@ -121,9 +131,14 @@
   font-size: 15px;
 }
 
-.student-list {
+.student-list-grey {
   margin: 17px;
   background-color: #d9d9d9;
+  max-width: 22%;
+}
+.student-list-blue {
+  margin: 17px;
+  background-color: #99bbff;
   max-width: 22%;
 }
 .student-image-home {
@@ -147,6 +162,15 @@
 .home-container {
   font-family: monospace;
   border: solid 2px #d9d9d9;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.home-container-main {
+  font-family: monospace;
+  border: solid 2px #d9d9d9;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
 }
 .pl0 {
   padding-left: 0;
@@ -157,5 +181,41 @@
 .switch-icon {
   width: 25px;
   height: 20px;
+  cursor: pointer;
+}
+.input-red {
+  border-bottom: solid 5px red;
+}
+.search-bar-home {
+  height: 50px;
+}
+.attendance-info-absent {
+  margin-bottom: 5px;
+}
+.attendance-info-present {
+  margin-bottom: 0;
+}
+.icon-absent {
+  height: 5px;
+  width: 5px;
+  background-color: #d9d9d9;
+  margin-right: 10px;
+  border: solid 1px;
+}
+.icon-present {
+  height: 5px;
+  width: 5px;
+  background-color: #99bbff;
+  margin-right: 10px;
+  border: solid 1px;
+}
+.home-header {
+  margin-top: 50px;
+  padding-left: 0px;
+  padding-bottom: 20px;
+}
+.icon-close {
+  width: 25px;
+  float: right;
   cursor: pointer;
 }

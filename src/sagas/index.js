@@ -55,9 +55,9 @@ export function* logActions() {
 }
 
 function* fetchStudentData() {
-  const json = yield fetch("https://jsonplaceholder.typicode.com/users").then(
-    response => response.json()
-  );
+  const json = yield fetch(
+    "https://www.json-generator.com/api/json/get/bVWFSHlGqa?indent=2"
+  ).then(response => response.json());
   yield put({ type: "DATA_RECEIVED", json: json });
   console.log("call completed and got data??????", json);
 }

@@ -2,16 +2,19 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
+import About from "./About";
+import Entry from "./Entry";
 import "../styles.css";
 import { connect } from "react-redux";
+import "bootstrap/dist/css/bootstrap.css";
 
 class Main extends React.Component {
   render() {
-    console.log("props from mainjs......", this.props);
     let mainProps = this.props;
     return (
       <main>
         <Switch>
+          <Route exact path="/" render={props => <Entry props={mainProps} />} />
           <Route
             exact
             path="/home"
@@ -21,6 +24,11 @@ class Main extends React.Component {
             props={mainProps}
             path="/login"
             render={props => <Login props={mainProps} />}
+          />
+          <Route
+            exact
+            path="/about"
+            render={props => <About props={mainProps} />}
           />
         </Switch>
       </main>
