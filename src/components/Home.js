@@ -13,44 +13,41 @@ import {
   Input
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import { getStudentData } from "../actions/logInActions";
+import { getStudentData, searchStudent, logIn } from "../actions/logInActions";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggleDropDown = this.toggleDropDown.bind(this);
-    this.toggleSplit = this.toggleSplit.bind(this);
-    this.switchPresence = this.switchPresence.bind(this);
-    this.closeMessage = this.closeMessage.bind(this);
-    this.logOutFromHome = this.logOutFromHome.bind(this);
     this.state = {
       dropdownOpen: false,
       splitButtonOpen: false,
       isPresent: [],
       message: "",
-      logOut: false
+      logOut: false,
+      pageSize: 20,
+      searchValue: "",
+      filter: ""
     };
   }
   componentDidMount() {
-    this.props.getStudentData();
+    this.props.getStudentData(this.state.pageSize);
   }
 
-  toggleDropDown() {
+  toggleDropDown = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
-  }
+  };
 
-  toggleSplit() {
+  toggleSplit = () => {
     this.setState({
       splitButtonOpen: !this.state.splitButtonOpen
     });
-  }
+  };
 
-  switchPresence(index) {
+  switchPresence = index => {
     let isPresent = this.state.isPresent;
     let getId = `student-card-${index}`;
     let studentCard = document.getElementById(getId).classList;
@@ -65,60 +62,78 @@ class Home extends React.Component {
       isPresent,
       message: "Status Changed!"
     });
-  }
-  closeMessage() {
+  };
+
+  closeMessage = () => {
     this.setState({
       message: ""
     });
-  }
-  logOutFromHome() {
+  };
+  logOutFromHome = () => {
     this.setState({ logOut: true });
-  }
+  };
+
+  handleLoadMore = () => {
+    this.setState(prevState => ({
+      pageSize: prevState.pageSize + 20
+    }));
+    this.props.getStudentData(this.state.pageSize);
+  };
+  selectedFilter = event => {
+    this.setState({ filter: event.target.textContent });
+  };
+  onInputChange = event => {
+    this.setState({ searchValue: event.target.value });
+    searchStudent(this.state.searchValue);
+  };
+
   render() {
     let studentData = this.props.props.studentData
       ? this.props.props.studentData
       : [];
-    const studentCard = studentData.map((items, index) => (
-      <Col lg="3" id={`student-card-${index}`} className="student-list-grey">
-        <Row>
-          <Col lg="5">
-            <img
-              alt="student-pic"
-              className="student-image-home"
-              src="https://www.lakeportmetalcraft.com/wp-content/uploads/2018/10/user-placeholder.png"
-            />
-          </Col>
-          <Col lg="7" className="pl0">
-            <section className="student-details-home">
-              <p className="student-details-p">
-                <span classname="student-card-bold">Name:</span>
-                {items.name}
-              </p>
-              <p className="student-details-p">
-                <span classname="student-card-bold">Roll No:</span>
-                {items.index}
-              </p>
-              <p className="student-details-p">
-                <span classname="student-card-bold">Class:</span>
-                {items.company}
-              </p>
-            </section>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <p className="student-switch-icon-p">
+    const studentCard =
+      studentData &&
+      studentData.map((items, index) => (
+        <Col lg="3" id={`student-card-${index}`} className="student-list-grey">
+          <Row>
+            <Col lg="5">
               <img
-                alt="switch-icon"
-                className="switch-icon"
-                onClick={this.switchPresence.bind(this, index)}
-                src="https://p7.hiclipart.com/preview/898/313/288/silhouette-angle-monochrome-photography-fish-dolphin-refresh-thumbnail.jpg"
+                alt="student-pic"
+                className="student-image-home"
+                src="https://www.lakeportmetalcraft.com/wp-content/uploads/2018/10/user-placeholder.png"
               />
-            </p>
-          </Col>
-        </Row>
-      </Col>
-    ));
+            </Col>
+            <Col lg="7" className="pl0">
+              <section className="student-details-home">
+                <p className="student-details-p">
+                  <span classname="student-card-bold">Name:</span>
+                  {items.name}
+                </p>
+                <p className="student-details-p">
+                  <span classname="student-card-bold">Roll No:</span>
+                  {items.index}
+                </p>
+                <p className="student-details-p">
+                  <span classname="student-card-bold">Class:</span>
+                  {items.company}
+                </p>
+              </section>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <p className="student-switch-icon-p">
+                <img
+                  alt="switch-icon"
+                  className="switch-icon"
+                  onClick={this.switchPresence.bind(this, index)}
+                  src="https://p7.hiclipart.com/preview/898/313/288/silhouette-angle-monochrome-photography-fish-dolphin-refresh-thumbnail.jpg"
+                />
+              </p>
+            </Col>
+          </Row>
+        </Col>
+      ));
     if (this.state.logOut) {
       return <Redirect to="/login" />;
     }
@@ -190,13 +205,42 @@ class Home extends React.Component {
                     Filter by
                   </Button>
                   <DropdownToggle split outline className="filter-by" />
-                  <DropdownMenu className="filter-drop-down">
-                    <DropdownItem>Name</DropdownItem>
-                    <DropdownItem>Class</DropdownItem>
-                    <DropdownItem>Section</DropdownItem>
+                  <DropdownMenu
+                    value={this.state.filter}
+                    className="filter-drop-down"
+                  >
+                    <DropdownItem>
+                      <span
+                        value="Name"
+                        onClick={event => this.selectedFilter(event)}
+                      >
+                        Name
+                      </span>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <span
+                        value="RollNo"
+                        onClick={event => this.selectedFilter(event)}
+                      >
+                        RollNo
+                      </span>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <span
+                        value="Class"
+                        onClick={event => this.selectedFilter(event)}
+                      >
+                        Class
+                      </span>
+                    </DropdownItem>
                   </DropdownMenu>
                 </InputGroupButtonDropdown>
-                <Input className="search-bar-home" placeholder="" />
+                <Input
+                  onChange={event => this.onInputChange(event)}
+                  value={this.state.searchValue}
+                  className="search-bar-home"
+                  placeholder=""
+                />
                 <InputGroupAddon addonType="append">
                   <Button className="glyphicon glyphicon-search" />
                 </InputGroupAddon>
@@ -218,7 +262,12 @@ class Home extends React.Component {
           <Row>
             <Col lg="4" />
             <Col lg="4" className="load-more-button">
-              <Button className="form-input-button-loadmore">Load More</Button>
+              <Button
+                onClick={this.handleLoadMore}
+                className="form-input-button-loadmore"
+              >
+                Load More
+              </Button>
             </Col>
             <Col lg="4" />
           </Row>
@@ -229,10 +278,14 @@ class Home extends React.Component {
 }
 
 const mapDispatchToProps = {
-  getStudentData: getStudentData
+  getStudentData: getStudentData,
+  logIn: logIn
+};
+const mapStateToProps = state => {
+  return { studData: state };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Home);

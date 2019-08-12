@@ -1,8 +1,8 @@
 import React from "react";
-import { getStudentData } from "../actions/logInActions";
-import { connect } from "react-redux";
-import { Container, Input, Button } from "reactstrap";
+import { Container, Button, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import { getStudentData, logIn } from "../actions/logInActions";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 class Login extends React.Component {
@@ -15,6 +15,7 @@ class Login extends React.Component {
       message: ""
     };
   }
+  componentDidMount() {}
 
   handleChange = (input, type) => {
     let inputValue = input.target.value;
@@ -33,11 +34,12 @@ class Login extends React.Component {
     }
   };
 
-  login = () => {
+  logIn = () => {
     let loginObj = {};
     loginObj.username = this.state.username;
     loginObj.password = this.state.password;
     let { username, password } = loginObj;
+    this.props.logIn(loginObj);
     let inputBox = document.getElementById("password").classList;
     if (username === "admin" && password === "password") {
       this.setState({ toHomePage: true });
@@ -54,7 +56,6 @@ class Login extends React.Component {
     });
   };
   render() {
-    console.log("got data in login component....?", this.props);
     let userName = this.state.username;
     let passWord = this.state.password;
     if (this.state.toHomePage) {
@@ -98,7 +99,7 @@ class Login extends React.Component {
               value={passWord}
               onChange={input => this.handleChange(input, "password")}
             />
-            <Button onClick={this.login} className="form-input-button">
+            <Button onClick={this.logIn} className="form-input-button">
               Sign In
             </Button>
           </section>
@@ -108,13 +109,15 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-    getStudentData: getStudentData
-  };
+const mapDispatchToProps = {
+  getStudentData: getStudentData,
+  logIn: logIn
+};
+const mapStateToProps = state => {
+  return { studData: state };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

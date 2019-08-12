@@ -6,8 +6,21 @@ const reducer = (state = {}, action) => {
       return { ...state, loading: true };
     case "DATA_RECEIVED":
       return { ...state, data: action.json, loading: false };
+    case "SEARCH_STUDENT":
+      const { searchTerm } = action;
+      const studData = state.data.filter(val => val.includes(searchTerm));
+      return { ...state, studData };
+    case "LOGIN_REQUEST":
+      return { ...state, userObject: action.userObject };
+    case "LOGIN_FAILED":
+      return { ...state, message: action.message, status: LOGIN_ERROR };
     case "LOGIN_SUCCESS":
-      return { ...state, status: LOGGED_IN };
+      return {
+        ...state,
+        userObject: action.userObject,
+        status: LOGGED_IN,
+        loading: false
+      };
     case "LOGOUT":
       return { ...state, status: LOGGED_OUT };
     case "LOGIN_ERROR":
