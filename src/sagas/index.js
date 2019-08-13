@@ -1,4 +1,4 @@
-import { put, take, takeEvery, all, fork } from "redux-saga/effects";
+import { put, take, takeEvery, all } from "redux-saga/effects";
 
 function* loginToHome() {
   try {

@@ -163,7 +163,11 @@ class Home extends React.Component {
               <Col lg="6" />
               <Col lg="6" className="login-details-content">
                 <span>
-                  Welcome {this.props.user.substring(0, 5) + "..."} |{" "}
+                  Welcome{" "}
+                  {`${this.props.user.substring(0, 5)} ${
+                    this.props.user.length > 5 ? "..." : ""
+                  }`}{" "}
+                  |{" "}
                   <Link className="about-text" to="/about">
                     About
                   </Link>
