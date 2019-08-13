@@ -43,7 +43,7 @@ class Login extends React.Component {
     let inputBox = document.getElementById("password").classList;
     if (
       (username === "admin" && password === "password") ||
-      (username !== "admin" && username.length > 4 && password.length > 4)
+      (username !== "admin" && username.length > 0 && password.length > 0)
     ) {
       this.setState({ isLoggedIn: true });
     } else {
@@ -85,26 +85,31 @@ class Login extends React.Component {
               <span className="slist-font-blue">S</span>
               <span className="slist-font-grey">List</span>
             </div>
-            <Input
-              type="text"
-              className="form-inputs"
-              id="username"
-              label="USERNAME"
-              placeholder="USERNAME"
-              value={userName}
-              onChange={item => this.handleChange(item, "username")}
-            />
-            <Input
-              type="password"
-              className="form-inputs"
-              id="password"
-              placeholder="PASSWORD"
-              value={passWord}
-              onChange={input => this.handleChange(input, "password")}
-            />
-            <Button onClick={this.logIn} className="form-input-button">
-              Sign In
-            </Button>
+            <form>
+              <Input
+                type="text"
+                className="form-inputs"
+                id="username"
+                label="USERNAME"
+                placeholder="USERNAME"
+                value={userName}
+                onChange={item => this.handleChange(item, "username")}
+              />
+              <Input
+                type="password"
+                className="form-inputs"
+                id="password"
+                placeholder="PASSWORD"
+                value={passWord}
+                onChange={input => this.handleChange(input, "password")}
+              />
+              <Button
+                onClick={() => this.logIn()}
+                className="form-input-button"
+              >
+                Sign In
+              </Button>
+            </form>
           </section>
         </div>
       </Container>
@@ -117,7 +122,8 @@ const mapDispatchToProps = {
   logIn: logIn
 };
 const mapStateToProps = state => {
-  return { studData: state };
+  const { userObject } = state;
+  return { studData: state.data, user: (userObject || {}).username };
 };
 
 export default connect(

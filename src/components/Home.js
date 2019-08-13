@@ -163,7 +163,7 @@ class Home extends React.Component {
               <Col lg="6" />
               <Col lg="6" className="login-details-content">
                 <span>
-                  Welcome {this.props.user} |{" "}
+                  Welcome {this.props.user.substring(0, 5) + "..."} |{" "}
                   <Link className="about-text" to="/about">
                     About
                   </Link>
@@ -287,7 +287,7 @@ const mapDispatchToProps = {
 };
 const mapStateToProps = state => {
   const { userObject } = state;
-  return { studData: state.data, user: (userObject || {}).username };
+  return { stateData: state, user: (userObject || {}).username };
 };
 
 export default connect(

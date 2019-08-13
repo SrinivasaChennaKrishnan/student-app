@@ -1,4 +1,4 @@
-import { put, take, takeEvery, all } from "redux-saga/effects";
+import { put, take, takeEvery, all, fork } from "redux-saga/effects";
 
 function* loginToHome() {
   try {
@@ -6,9 +6,9 @@ function* loginToHome() {
     const { username, password } = loginObject.userObject;
     if (
       (username === "admin" && password === "password") ||
-      (username !== "admin" && username.length > 4 && password.length > 4)
+      (username !== "admin" && username.length > 0 && password.length > 0)
     ) {
-      yield put({ type: "LOGIN_SUCCESS", userObject: loginObject });
+      yield put({ type: "LOGIN_SUCCESS", userObject: loginObject.userObject });
     } else {
       yield put({ type: "LOGIN_FAILED", message: "Invalid Credentials..!" });
     }
@@ -34,13 +34,10 @@ function* fetchStudentData() {
   let studentData = handleData(json, getData.payload);
   yield put({ type: "DATA_RECEIVED", json: studentData });
 }
-function* actionWatcher() {
-  yield takeEvery("GET_STUDENT_DATA", fetchStudentData);
-}
-function* logInActionWatcher() {
-  yield takeEvery("LOGIN_REQUEST", loginToHome);
-}
+
+const actionWatcher = takeEvery("GET_STUDENT_DATA", fetchStudentData);
+const logInActionWatcher = takeEvery("LOGIN_REQUEST", loginToHome);
 
 export function* rootSaga() {
-  yield all([actionWatcher(), logInActionWatcher()]);
+  yield all([actionWatcher, logInActionWatcher]);
 }
