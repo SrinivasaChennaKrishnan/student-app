@@ -1,3 +1,6 @@
+/* Glyphicons*/
+/* @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"); */
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -120,15 +123,18 @@
 }
 .filter-dropdown {
   border: none;
+  background-color: #fff;
 }
 .filter-by {
   color: #212529;
   background-color: none;
   border: 1px solid #ced4da;
+  background-color: #fff;
 }
 .filter-drop-down {
   color: #808080;
   font-size: 15px;
+  background-color: #fff;
 }
 
 .student-list-grey {
@@ -224,4 +230,11 @@
   width: 25px;
   float: right;
   cursor: pointer;
+}
+.search-button {
+  background-color: #ffff;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Q50zFTY9W7H3mXJ4bCrXPE421xs5YtAfBckRh1C7fJhbk06w");
+  border-left: none;
+  border: 1px solid #ced4da;
+  width: 50px;
 }

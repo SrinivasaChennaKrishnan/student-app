@@ -6,6 +6,10 @@ export const logIn = loginObj => {
   return { type: "LOGIN_REQUEST", userObject: loginObj };
 };
 
-export const searchStudent = searchValue => {
-  return { type: "SEARCH_STUDENT", searchTerm: searchValue };
+export const searchStudent = (searchValue, studentData) => {
+  return {
+    type: "SEARCH_STUDENT",
+    searchTerm: searchValue,
+    studentList: studentData
+  };
 };

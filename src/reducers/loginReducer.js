@@ -7,9 +7,9 @@ const reducer = (state = {}, action) => {
     case "DATA_RECEIVED":
       return { ...state, data: action.json, loading: false };
     case "SEARCH_STUDENT":
-      const { searchTerm } = action;
-      const studData = state.data.filter(val => val.includes(searchTerm));
-      return { ...state, studData };
+      return { ...state, loading: true };
+    case "FILTERED_DATA":
+      return { ...state, loading: false, filteredData: action.studentList };
     case "LOGIN_REQUEST":
       return { ...state, userObject: action.userObject };
     case "LOGIN_FAILED":

@@ -82,18 +82,25 @@ class Home extends React.Component {
     this.props.getStudentData(this.state.pageSize);
   };
   selectedFilter = event => {
-    this.setState({ filter: event.target.textContent });
+    this.setState({ filter: event.currentTarget.value });
   };
-  onInputChange = event => {
+  onInputChange = (event, studentData) => {
     this.setState({ searchValue: event.target.value });
-    searchStudent(this.state.searchValue);
+    searchStudent(this.state.searchValue, studentData);
+  };
+
+  filterResults = studentData => {
+    searchStudent(this.state.searchValue, studentData);
   };
 
   render() {
     let isAdmin = this.props.user === "admin" ? true : false;
+    const toggleFunc = this.selectedFilter;
     let studentData = this.props.props.studentData
       ? this.props.props.studentData
       : [];
+    // let filteredData = this.props.filteredData;
+    // studentData = filteredData.length > 0 ? filteredData :studentData;
     const studentCard =
       studentData &&
       studentData.map((items, index) => (
@@ -209,48 +216,43 @@ class Home extends React.Component {
                   toggle={this.toggleSplit}
                   className="filter-dropdown"
                 >
-                  <Button outline className="filter-by">
-                    Filter by
-                  </Button>
-                  <DropdownToggle split outline className="filter-by" />
+                  <Button className="filter-by">Filter by</Button>
+                  <DropdownToggle split className="filter-by" />
                   <DropdownMenu
                     value={this.state.filter}
                     className="filter-drop-down"
                   >
-                    <DropdownItem>
-                      <span
-                        value="Name"
-                        onClick={event => this.selectedFilter(event)}
-                      >
-                        Name
-                      </span>
+                    <DropdownItem
+                      value="Name"
+                      onClick={event => toggleFunc(event)}
+                    >
+                      Name
                     </DropdownItem>
-                    <DropdownItem>
-                      <span
-                        value="RollNo"
-                        onClick={event => this.selectedFilter(event)}
-                      >
-                        RollNo
-                      </span>
+                    <DropdownItem
+                      value="RollNo"
+                      onClick={event => toggleFunc(event)}
+                    >
+                      RollNo
                     </DropdownItem>
-                    <DropdownItem>
-                      <span
-                        value="Class"
-                        onClick={event => this.selectedFilter(event)}
-                      >
-                        Class
-                      </span>
+                    <DropdownItem
+                      value="Class"
+                      onClick={event => toggleFunc(event)}
+                    >
+                      Class
                     </DropdownItem>
                   </DropdownMenu>
                 </InputGroupButtonDropdown>
                 <Input
-                  onChange={event => this.onInputChange(event)}
+                  onChange={event => this.onInputChange(event, studentData)}
                   value={this.state.searchValue}
                   className="search-bar-home"
                   placeholder=""
                 />
                 <InputGroupAddon addonType="append">
-                  <Button className="glyphicon glyphicon-search" />
+                  <Button
+                    onClick={studentData => this.filterResults(studentData)}
+                    className="glyphicon glyphicon-search search-button"
+                  />
                 </InputGroupAddon>
               </InputGroup>
             </Col>
@@ -291,7 +293,11 @@ const mapDispatchToProps = {
 };
 const mapStateToProps = state => {
   const { userObject } = state;
-  return { stateData: state, user: (userObject || {}).username };
+  return {
+    stateData: state,
+    user: (userObject || {}).username || "",
+    filteredData: state.filteredData || {}
+  };
 };
 
 export default connect(

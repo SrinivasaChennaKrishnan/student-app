@@ -35,9 +35,20 @@ function* fetchStudentData() {
   yield put({ type: "DATA_RECEIVED", json: studentData });
 }
 
+function* getList() {
+  console.log("searching in studentlist");
+  // const studentList = yield take("SEARCH_STUDENT");
+  // const searchValue = studentList.searchValue;
+  // const filteredData = studentList.studentList.contents.filter(val =>
+  //   val.includes(searchValue)
+  // );
+  //yield put({ type: "FILTERED_DATA", studentList: filteredData });
+}
+
+const searchWatcher = takeEvery("SEARCH_STUDENT", getList);
 const actionWatcher = takeEvery("GET_STUDENT_DATA", fetchStudentData);
 const logInActionWatcher = takeEvery("LOGIN_REQUEST", loginToHome);
 
 export function* rootSaga() {
-  yield all([actionWatcher, logInActionWatcher]);
+  yield all([searchWatcher, actionWatcher, logInActionWatcher]);
 }
