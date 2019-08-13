@@ -4,7 +4,10 @@ function* loginToHome() {
   try {
     const loginObject = yield take("LOGIN_REQUEST");
     const { username, password } = loginObject.userObject;
-    if (username === "admin" && password === "password") {
+    if (
+      (username === "admin" && password === "password") ||
+      (username !== "admin" && username.length > 4 && password.length > 4)
+    ) {
       yield put({ type: "LOGIN_SUCCESS", userObject: loginObject });
     } else {
       yield put({ type: "LOGIN_FAILED", message: "Invalid Credentials..!" });

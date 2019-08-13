@@ -183,6 +183,12 @@
   height: 20px;
   cursor: pointer;
 }
+.switch-icon-disabled {
+  width: 25px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0.2;
+}
 .input-red {
   border-bottom: solid 5px red;
 }

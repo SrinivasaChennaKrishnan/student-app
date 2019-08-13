@@ -11,7 +11,7 @@ class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
-      toHomePage: false,
+      isLoggedIn: false,
       message: ""
     };
   }
@@ -41,8 +41,11 @@ class Login extends React.Component {
     let { username, password } = loginObj;
     this.props.logIn(loginObj);
     let inputBox = document.getElementById("password").classList;
-    if (username === "admin" && password === "password") {
-      this.setState({ toHomePage: true });
+    if (
+      (username === "admin" && password === "password") ||
+      (username !== "admin" && username.length > 4 && password.length > 4)
+    ) {
+      this.setState({ isLoggedIn: true });
     } else {
       this.setState({ message: "Invalid Credentials !" });
       inputBox.add("input-red");
@@ -58,7 +61,7 @@ class Login extends React.Component {
   render() {
     let userName = this.state.username;
     let passWord = this.state.password;
-    if (this.state.toHomePage) {
+    if (this.state.isLoggedIn) {
       return <Redirect to="/home" />;
     }
     return (

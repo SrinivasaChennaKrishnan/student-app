@@ -47,21 +47,23 @@ class Home extends React.Component {
     });
   };
 
-  switchPresence = index => {
-    let isPresent = this.state.isPresent;
-    let getId = `student-card-${index}`;
-    let studentCard = document.getElementById(getId).classList;
-    if (isPresent.includes(index)) {
-      isPresent.pop(index);
-      studentCard.remove("student-list-blue");
-    } else {
-      isPresent.push(index);
-      studentCard.add("student-list-blue");
+  switchPresence = (index, isAdmin) => {
+    if (isAdmin) {
+      let isPresent = this.state.isPresent;
+      let getId = `student-card-${index}`;
+      let studentCard = document.getElementById(getId).classList;
+      if (isPresent.includes(index)) {
+        isPresent.pop(index);
+        studentCard.remove("student-list-blue");
+      } else {
+        isPresent.push(index);
+        studentCard.add("student-list-blue");
+      }
+      this.setState({
+        isPresent,
+        message: "Status Changed!"
+      });
     }
-    this.setState({
-      isPresent,
-      message: "Status Changed!"
-    });
   };
 
   closeMessage = () => {
@@ -88,6 +90,7 @@ class Home extends React.Component {
   };
 
   render() {
+    let isAdmin = this.props.user === "admin" ? true : false;
     let studentData = this.props.props.studentData
       ? this.props.props.studentData
       : [];
@@ -125,8 +128,8 @@ class Home extends React.Component {
               <p className="student-switch-icon-p">
                 <img
                   alt="switch-icon"
-                  className="switch-icon"
-                  onClick={this.switchPresence.bind(this, index)}
+                  className={isAdmin ? "switch-icon" : "switch-icon-disabled"}
+                  onClick={this.switchPresence.bind(this, index, isAdmin)}
                   src="https://p7.hiclipart.com/preview/898/313/288/silhouette-angle-monochrome-photography-fish-dolphin-refresh-thumbnail.jpg"
                 />
               </p>
@@ -134,7 +137,8 @@ class Home extends React.Component {
           </Row>
         </Col>
       ));
-    if (this.state.logOut) {
+
+    if (this.state.logOut || !this.props.user) {
       return <Redirect to="/login" />;
     }
     return (
@@ -159,7 +163,7 @@ class Home extends React.Component {
               <Col lg="6" />
               <Col lg="6" className="login-details-content">
                 <span>
-                  Welcome Admin! |{" "}
+                  Welcome {this.props.user} |{" "}
                   <Link className="about-text" to="/about">
                     About
                   </Link>
@@ -282,7 +286,8 @@ const mapDispatchToProps = {
   logIn: logIn
 };
 const mapStateToProps = state => {
-  return { studData: state };
+  const { userObject } = state;
+  return { studData: state.data, user: (userObject || {}).username };
 };
 
 export default connect(
