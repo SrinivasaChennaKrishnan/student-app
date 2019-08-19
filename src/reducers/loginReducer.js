@@ -7,7 +7,7 @@ const reducer = (state = {}, action) => {
     case "DATA_RECEIVED":
       return { ...state, data: action.json, loading: false };
     case "SEARCH_STUDENT":
-      return { ...state, loading: true };
+      return { ...state };
     case "FILTERED_DATA":
       return { ...state, loading: false, filteredData: action.studentList };
     case "LOGIN_REQUEST":

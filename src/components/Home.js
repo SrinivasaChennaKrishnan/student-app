@@ -95,6 +95,8 @@ class Home extends React.Component {
 
   render() {
     let isAdmin = this.props.user === "admin" ? true : false;
+    let isLoading =
+      (this.props.stateData && this.props.stateData.loading) || false;
     const toggleFunc = this.selectedFilter;
     let studentData = this.props.props.studentData
       ? this.props.props.studentData
@@ -267,20 +269,31 @@ class Home extends React.Component {
               </p>
             </Col>
           </Row>
-          <Row>{studentCard}</Row>
-          <Row />
-          <Row>
-            <Col lg="4" />
-            <Col lg="4" className="load-more-button">
-              <Button
-                onClick={this.handleLoadMore}
-                className="form-input-button-loadmore"
-              >
-                Load More
-              </Button>
-            </Col>
-            <Col lg="4" />
-          </Row>
+          {isLoading && (
+            <Row>
+              <Col lg="12" className="loading-icon">
+                <img
+                  alt="loader"
+                  src="https://salesoutcomes.com/wp-content/uploads/2019/03/reboot.gif"
+                />
+              </Col>
+            </Row>
+          )}
+          {!isLoading && <Row>{studentCard}</Row>}
+          {!isLoading && (
+            <Row>
+              <Col lg="4" />
+              <Col lg="4" className="load-more-button">
+                <Button
+                  onClick={this.handleLoadMore}
+                  className="form-input-button-loadmore"
+                >
+                  Load More
+                </Button>
+              </Col>
+              <Col lg="4" />
+            </Row>
+          )}
         </Container>
       </div>
     );

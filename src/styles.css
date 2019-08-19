@@ -52,6 +52,8 @@
   background-color: #33adff;
   font-size: 30px;
   border-radius: 5px;
+  line-height: 5px;
+  height: 70px;
 }
 .form-input-button-loadmore {
   display: block;
@@ -237,4 +239,7 @@
   border-left: none;
   border: 1px solid #ced4da;
   width: 50px;
+}
+.loading-icon {
+  text-align: center;
 }

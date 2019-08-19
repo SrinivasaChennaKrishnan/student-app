@@ -103,12 +103,14 @@ class Login extends React.Component {
                 value={passWord}
                 onChange={input => this.handleChange(input, "password")}
               />
-              <Button
+              <Input
+                type="button"
+                value="Sign In"
                 onClick={() => this.logIn()}
                 className="form-input-button"
               >
                 Sign In
-              </Button>
+              </Input>
             </form>
           </section>
         </div>
