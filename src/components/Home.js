@@ -116,8 +116,8 @@ class Home extends React.Component {
       this.props.props.studentData &&
       this.props.props.studentData.length === studentData.length;
 
-    // let filteredData = this.props.filteredData;
-    // studentData = filteredData.length > 0 ? filteredData :studentData;
+    let filteredData = this.props.filteredData;
+    studentData = filteredData.length > 0 ? filteredData : studentData;
     const studentCard =
       studentData &&
       studentData.map((items, index) => (
