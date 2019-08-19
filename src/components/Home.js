@@ -86,11 +86,11 @@ class Home extends React.Component {
   };
   onInputChange = (event, studentData) => {
     this.setState({ searchValue: event.target.value });
-    searchStudent(this.state.searchValue, studentData);
+    this.props.searchStudent(this.state.searchValue, studentData);
   };
 
   filterResults = studentData => {
-    searchStudent(this.state.searchValue, studentData);
+    this.props.searchStudent(this.state.searchValue, studentData);
   };
 
   handleData = (obj, n) => {
@@ -319,7 +319,8 @@ class Home extends React.Component {
 
 const mapDispatchToProps = {
   getStudentData: getStudentData,
-  logIn: logIn
+  logIn: logIn,
+  searchStudent: searchStudent
 };
 const mapStateToProps = state => {
   const { userObject } = state;

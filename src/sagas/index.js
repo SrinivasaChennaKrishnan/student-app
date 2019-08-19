@@ -25,13 +25,13 @@ function* fetchStudentData() {
 }
 
 function* getList() {
-  console.log("searching in studentlist");
-  // const studentList = yield take("SEARCH_STUDENT");
-  // const searchValue = studentList.searchValue;
-  // const filteredData = studentList.studentList.contents.filter(val =>
+  const studentList = yield take("SEARCH_STUDENT");
+  const searchValue = studentList.searchTerm;
+  // const filteredData = studentList.studentList.filter(val =>
   //   val.includes(searchValue)
   // );
-  //yield put({ type: "FILTERED_DATA", studentList: filteredData });
+  // yield put({ type: "FILTERED_DATA", studentList: filteredData });
+  console.log("got filtered list in saga...", searchValue);
 }
 
 const searchWatcher = takeEvery("SEARCH_STUDENT", getList);

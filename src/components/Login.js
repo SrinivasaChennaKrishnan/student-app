@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, Input } from "reactstrap";
+import { Container, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import { getStudentData, logIn } from "../actions/logInActions";
 import { connect } from "react-redux";
