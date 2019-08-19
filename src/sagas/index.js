@@ -17,22 +17,11 @@ function* loginToHome() {
   }
 }
 
-function handleData(obj, n) {
-  return Object.keys(obj)
-    .sort()
-    .slice(0, n)
-    .reduce(function(data, current) {
-      data[current] = obj[current];
-      return data;
-    }, []);
-}
 function* fetchStudentData() {
   const json = yield fetch(
     "https://www.json-generator.com/api/json/get/bVWFSHlGqa?indent=2"
   ).then(response => response.json());
-  const getData = yield take("GET_STUDENT_DATA");
-  let studentData = handleData(json, getData.payload);
-  yield put({ type: "DATA_RECEIVED", json: studentData });
+  yield put({ type: "DATA_RECEIVED", json: json });
 }
 
 function* getList() {

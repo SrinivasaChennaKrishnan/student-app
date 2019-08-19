@@ -32,7 +32,7 @@ class Home extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.getStudentData(this.state.pageSize);
+    this.props.getStudentData();
   }
 
   toggleDropDown = () => {
@@ -79,7 +79,7 @@ class Home extends React.Component {
     this.setState(prevState => ({
       pageSize: prevState.pageSize + 20
     }));
-    this.props.getStudentData(this.state.pageSize);
+    this.props.getStudentData();
   };
   selectedFilter = event => {
     this.setState({ filter: event.currentTarget.value });
@@ -93,6 +93,16 @@ class Home extends React.Component {
     searchStudent(this.state.searchValue, studentData);
   };
 
+  handleData = (obj, n) => {
+    return Object.keys(obj)
+      .sort()
+      .slice(0, n)
+      .reduce(function(data, current) {
+        data[current] = obj[current];
+        return data;
+      }, []);
+  };
+
   render() {
     let isAdmin = this.props.user === "admin" ? true : false;
     let isLoading =
@@ -101,6 +111,11 @@ class Home extends React.Component {
     let studentData = this.props.props.studentData
       ? this.props.props.studentData
       : [];
+    studentData = this.handleData(studentData, this.state.pageSize);
+    let isLoadMoreDisable =
+      this.props.props.studentData &&
+      this.props.props.studentData.length === studentData.length;
+
     // let filteredData = this.props.filteredData;
     // studentData = filteredData.length > 0 ? filteredData :studentData;
     const studentCard =
@@ -285,8 +300,10 @@ class Home extends React.Component {
               <Col lg="4" />
               <Col lg="4" className="load-more-button">
                 <Button
+                  id="load-more"
                   onClick={this.handleLoadMore}
                   className="form-input-button-loadmore"
+                  disabled={isLoadMoreDisable}
                 >
                   Load More
                 </Button>

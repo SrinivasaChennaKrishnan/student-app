@@ -125,7 +125,11 @@ const mapDispatchToProps = {
 };
 const mapStateToProps = state => {
   const { userObject } = state;
-  return { studData: state.data, user: (userObject || {}).username };
+  return {
+    studData: state.data,
+    user: (userObject || {}).username,
+    stateData: state
+  };
 };
 
 export default connect(
