@@ -123,6 +123,15 @@ class Home extends React.Component {
 
     let filteredData = this.props.filteredData;
     studentData = filteredData.length > 0 ? filteredData : studentData;
+    studentData =
+      studentData &&
+      studentData.map((item, index) => {
+        var studArray = Object.assign({}, item);
+        studArray.isPresent = this.state.isPresent.includes(index)
+          ? true
+          : false;
+        return studArray;
+      });
     const studentCard =
       studentData &&
       studentData.map((items, index) => (
@@ -130,9 +139,7 @@ class Home extends React.Component {
           lg="3"
           id={`student-card-${index}`}
           className={
-            this.state.isPresent.includes(index)
-              ? "student-list-blue"
-              : "student-list-grey"
+            items.isPresent ? "student-list-blue" : "student-list-grey"
           }
         >
           <Row>

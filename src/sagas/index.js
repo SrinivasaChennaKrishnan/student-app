@@ -24,26 +24,23 @@ function* fetchStudentData() {
   yield put({ type: "DATA_RECEIVED", json: json });
 }
 
-function search(studObj, searchTerm) {
-  let matches = [],
-    i,
-    key;
-
-  for (i = studObj.length; i--; )
-    for (key in studObj[i])
-      if (
-        studObj[i].hasOwnProperty(key) &&
-        studObj[i][key].indexOf(searchTerm) > -1
-      )
-        matches.push(studObj[i]);
-  return matches;
+function includesStr(values, searchValue) {
+  return values
+    .map(function(value) {
+      return String(value);
+    })
+    .find(function(value) {
+      return value.includes(searchValue);
+    });
 }
 
 function* getList() {
   const studentObj = yield take("SEARCH_STUDENT");
   const searchValue = studentObj.searchTerm;
   const studentList = studentObj.studentList;
-  const filteredData = search(studentList, searchValue);
+  const filteredData = studentList.filter(function(item) {
+    return includesStr(Object.values(item), searchValue);
+  });
   yield put({ type: "FILTERED_DATA", studentList: filteredData });
 }
 
