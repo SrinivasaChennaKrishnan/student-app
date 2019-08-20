@@ -35,12 +35,6 @@ class Home extends React.Component {
     this.props.getStudentData();
   }
 
-  toggleDropDown = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  };
-
   toggleSplit = () => {
     this.setState({
       splitButtonOpen: !this.state.splitButtonOpen
@@ -50,19 +44,27 @@ class Home extends React.Component {
   switchPresence = (index, isAdmin) => {
     if (isAdmin) {
       let isPresent = this.state.isPresent;
-      let getId = `student-card-${index}`;
-      let studentCard = document.getElementById(getId).classList;
+      let searchMargin = document.getElementById("search").classList;
       if (isPresent.includes(index)) {
-        isPresent.pop(index);
-        studentCard.remove("student-list-blue");
+        for (var i = 0; i < isPresent.length; i++) {
+          if (isPresent[i] === index) {
+            isPresent.splice(i, 1);
+          }
+        }
       } else {
         isPresent.push(index);
-        studentCard.add("student-list-blue");
       }
       this.setState({
         isPresent,
         message: "Status Changed!"
       });
+      searchMargin.remove("home-margin");
+      setTimeout(() => {
+        this.setState({
+          message: ""
+        });
+        searchMargin.add("home-margin");
+      }, 10000);
     }
   };
 
@@ -82,7 +84,10 @@ class Home extends React.Component {
     this.props.getStudentData();
   };
   selectedFilter = event => {
-    this.setState({ filter: event.currentTarget.value });
+    this.setState({
+      filter: event.currentTarget.innerText,
+      dropdownOpen: !this.state.dropdownOpen
+    });
   };
   onInputChange = (event, studentData) => {
     this.setState({ searchValue: event.target.value });
@@ -121,7 +126,15 @@ class Home extends React.Component {
     const studentCard =
       studentData &&
       studentData.map((items, index) => (
-        <Col lg="3" id={`student-card-${index}`} className="student-list-grey">
+        <Col
+          lg="3"
+          id={`student-card-${index}`}
+          className={
+            this.state.isPresent.includes(index)
+              ? "student-list-blue"
+              : "student-list-grey"
+          }
+        >
           <Row>
             <Col lg="5">
               <img
@@ -224,7 +237,7 @@ class Home extends React.Component {
               </Col>
             </Row>
           )}
-          <Row>
+          <Row id="search" className="home-margin">
             <Col lg="6" className="search-bar">
               <InputGroup className="search-bar-home">
                 <InputGroupButtonDropdown

@@ -106,10 +106,10 @@
   color: #212529;
 }
 .search-bar {
-  margin-top: 50px;
+  float: left;
 }
 .search-bar-info {
-  margin-top: 60px;
+  margin-top: 10px;
 }
 .right-inner-addon {
   position: relative;
@@ -242,4 +242,7 @@
 }
 .loading-icon {
   text-align: center;
+}
+.home-margin {
+  margin-top: 85px;
 }
