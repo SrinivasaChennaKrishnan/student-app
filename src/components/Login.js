@@ -59,17 +59,18 @@ class Login extends React.Component {
     });
   };
   render() {
-    let userName = this.state.username;
-    let passWord = this.state.password;
-    if (this.state.isLoggedIn) {
+    let logState = this.state;
+    let userName = logState.username;
+    let passWord = logState.password;
+    if (logState.isLoggedIn) {
       return <Redirect to="/home" />;
     }
     return (
       <Container className="home-container">
         <div className="login">
-          {this.state.message !== "" && (
+          {logState.message !== "" && (
             <section className="error-message">
-              {this.state.message}{" "}
+              {logState.message}{" "}
               <span>
                 <img
                   alt="close"

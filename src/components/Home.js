@@ -26,7 +26,8 @@ class Home extends React.Component {
       isPresent: [],
       message: "",
       logOut: false,
-      pageSize: 20,
+      pageSize: 10,
+      pageNum: 1,
       searchValue: "",
       filter: ""
     };
@@ -79,7 +80,8 @@ class Home extends React.Component {
 
   handleLoadMore = () => {
     this.setState(prevState => ({
-      pageSize: prevState.pageSize + 20
+      pageSize: prevState.pageSize + 10,
+      pageNum: prevState.pageNum + 1
     }));
     this.props.getStudentData();
   };
@@ -91,7 +93,8 @@ class Home extends React.Component {
   };
   onInputChange = (event, studentData) => {
     this.setState({ searchValue: event.target.value });
-    this.props.searchStudent(this.state.searchValue, studentData);
+    let searchTerm = this.state.searchValue;
+    this.props.searchStudent(searchTerm, studentData);
   };
 
   filterResults = studentData => {
@@ -109,25 +112,27 @@ class Home extends React.Component {
   };
 
   render() {
-    let isAdmin = this.props.user === "admin" ? true : false;
+    let homeProps = this.props;
+    let homeState = this.state;
+    let isAdmin = homeProps.user === "admin" ? true : false;
     let isLoading =
-      (this.props.stateData && this.props.stateData.loading) || false;
+      (homeProps.stateData && homeProps.stateData.loading) || false;
     const toggleFunc = this.selectedFilter;
-    let studentData = this.props.props.studentData
-      ? this.props.props.studentData
-      : [];
-    studentData = this.handleData(studentData, this.state.pageSize);
+    let studObject = homeProps.props.studentData;
+    let studentData = studObject ? studObject : [];
+    studentData = this.handleData(studentData, homeState.pageSize);
     let isLoadMoreDisable =
-      this.props.props.studentData &&
-      this.props.props.studentData.length === studentData.length;
-
-    let filteredData = this.props.filteredData;
-    studentData = filteredData.length > 0 ? filteredData : studentData;
+      studObject && studObject.length === studentData.length;
+    let filteredData = homeProps.filteredData;
+    studentData =
+      filteredData.length > 0 && homeState.searchValue !== ""
+        ? filteredData
+        : studentData;
     studentData =
       studentData &&
       studentData.map((item, index) => {
         var studArray = Object.assign({}, item);
-        studArray.isPresent = this.state.isPresent.includes(index)
+        studArray.isPresent = homeState.isPresent.includes(index)
           ? true
           : false;
         return studArray;
@@ -182,7 +187,7 @@ class Home extends React.Component {
         </Col>
       ));
 
-    if (this.state.logOut || !this.props.user) {
+    if (homeState.logOut || !homeProps.user) {
       return <Redirect to="/login" />;
     }
     return (
@@ -200,7 +205,7 @@ class Home extends React.Component {
                 <span className="slist-font-grey-home">List</span>
               </span>
               <span className="label-count">
-                {this.state.isPresent.length} present today
+                {homeState.isPresent.length} present today
               </span>
             </Col>
             <Col lg="6">
@@ -208,8 +213,8 @@ class Home extends React.Component {
               <Col lg="6" className="login-details-content">
                 <span>
                   Welcome{" "}
-                  {`${this.props.user.substring(0, 5)} ${
-                    this.props.user.length > 5 ? "..." : ""
+                  {`${homeProps.user.substring(0, 5)} ${
+                    homeProps.user.length > 5 ? "..." : ""
                   }`}{" "}
                   |{" "}
                   <Link className="about-text" to="/about">
@@ -227,11 +232,11 @@ class Home extends React.Component {
               </Col>
             </Col>
           </Row>
-          {this.state.message !== "" && (
+          {homeState.message !== "" && (
             <Row>
               <Col lg="12">
                 <section className="message-home">
-                  {this.state.message}{" "}
+                  {homeState.message}{" "}
                   <span>
                     <img
                       alt="close"
@@ -249,14 +254,14 @@ class Home extends React.Component {
               <InputGroup className="search-bar-home">
                 <InputGroupButtonDropdown
                   addonType="prepend"
-                  isOpen={this.state.splitButtonOpen}
+                  isOpen={homeState.splitButtonOpen}
                   toggle={this.toggleSplit}
                   className="filter-dropdown"
                 >
                   <Button className="filter-by">Filter by</Button>
                   <DropdownToggle split className="filter-by" />
                   <DropdownMenu
-                    value={this.state.filter}
+                    value={homeState.filter}
                     className="filter-drop-down"
                   >
                     <DropdownItem
@@ -281,7 +286,7 @@ class Home extends React.Component {
                 </InputGroupButtonDropdown>
                 <Input
                   onChange={event => this.onInputChange(event, studentData)}
-                  value={this.state.searchValue}
+                  value={homeState.searchValue}
                   className="search-bar-home"
                   placeholder=""
                 />
